@@ -28,11 +28,11 @@ export const TIER_SCALE = { outer: 0.86, inner: 1.00, center: 1.18 };
 // ===== 弧形布局：5 张卡在 default 状态的位置（phone canvas 360×640，百分比）=====
 // 视觉上：中间大、两边小，弧形排列
 export const ARC_POSITIONS = {
-  P1: { x: 14, y: 78, tier: 'outer'  },
-  P2: { x: 32, y: 73, tier: 'inner'  },
+  P1: { x: 16, y: 78, tier: 'outer'  },
+  P2: { x: 33, y: 73, tier: 'inner'  },
   P3: { x: 50, y: 68, tier: 'center' },
-  P4: { x: 68, y: 73, tier: 'inner'  },
-  P5: { x: 86, y: 78, tier: 'outer'  },
+  P4: { x: 67, y: 73, tier: 'inner'  },
+  P5: { x: 84, y: 78, tier: 'outer'  },
 };
 
 // ===== 滚动轨道：snap-to 后的统一布局（参考 godot spec 4.2）=====
