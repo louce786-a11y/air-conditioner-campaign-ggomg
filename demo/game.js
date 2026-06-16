@@ -25,26 +25,24 @@ export const POSITION_TIER = {
 
 export const TIER_SCALE = { outer: 0.86, inner: 1.00, center: 1.18 };
 
-// ===== 弧形布局：5 张卡在 default 状态的位置（phone canvas 720×405 横屏，百分比）=====
-// 视觉上：水平排列，中央略高（5 折最大），跟三联图左图一致
-// sprite 宽度不同（82/91/118/90/93），X 位置向画框中间聚拢（避免卡 1/5 被画框切）
-// 画框 360×640 中 Y 位置：卡顶 y=66%, 卡底 y=78%，中央卡略高 2%
+// ===== 弧形布局：5 张卡在 default 状态的位置（phone canvas 360×640，百分比）=====
+// 视觉上：中间大、两边小，弧形排列
 export const ARC_POSITIONS = {
-  P1: { x: 15, y: 73, tier: 'outer'  },  // C1 9折 微凉 最左 (sprite 82×191)
-  P2: { x: 32, y: 72, tier: 'inner'  },  // C3 7折 冰爽畅享 左中 (sprite 91×191)
-  P3: { x: 50, y: 70, tier: 'center' },  // C5 5折 半价冰风王 中央最大 (sprite 118×191)
-  P4: { x: 68, y: 72, tier: 'inner'  },  // C4 6折 极寒狂欢 右中 (sprite 90×191)
-  P5: { x: 85, y: 73, tier: 'outer'  },  // C2 8折 清凉派对 最右 (sprite 93×191)
+  P1: { x: 14, y: 78, tier: 'outer'  },
+  P2: { x: 32, y: 73, tier: 'inner'  },
+  P3: { x: 50, y: 68, tier: 'center' },
+  P4: { x: 68, y: 73, tier: 'inner'  },
+  P5: { x: 86, y: 78, tier: 'outer'  },
 };
 
 // ===== 滚动轨道：snap-to 后的统一布局（参考 godot spec 4.2）=====
-// 关键设计：5 张卡水平均分 Y=70%（跟 arc 中段对齐），X 间距 18%
+// 5 张卡均匀分布，Y 统一，scale 1.0
 export const TRACK_POSITIONS = {
-  P1: { x: 14, y: 70, tier: 'inner' },
-  P2: { x: 32, y: 70, tier: 'inner' },
-  P3: { x: 50, y: 70, tier: 'inner' },  // 中央
-  P4: { x: 68, y: 70, tier: 'inner' },
-  P5: { x: 86, y: 70, tier: 'inner' },
+  P1: { x:  8, y: 50, tier: 'inner' },
+  P2: { x: 28, y: 50, tier: 'inner' },
+  P3: { x: 50, y: 50, tier: 'inner' },  // 中央
+  P4: { x: 72, y: 50, tier: 'inner' },
+  P5: { x: 92, y: 50, tier: 'inner' },
 };
 
 export const RARE_WEIGHT_THRESHOLD = 15;
@@ -64,9 +62,9 @@ export const ANIM = {
 // ===== 老虎机常量 =====
 export const SLOT_TOTAL_CARDS = 40;
 export const SLOT_WINNER_INDEX = 35;
-export const REEL_CARD_WIDTH = 60;       // 滚动轨道上卡宽（适配 16:9 横屏 720×405）
+export const REEL_CARD_WIDTH = 78;       // 滚动轨道上卡宽
 export const REEL_CARD_MARGIN = 8;       // 卡间距
-export const REEL_STEP = REEL_CARD_WIDTH + REEL_CARD_MARGIN;  // 68
+export const REEL_STEP = REEL_CARD_WIDTH + REEL_CARD_MARGIN;  // 86
 
 // ===== 加权随机抽 =====
 export function weightedPick(coupons = COUPONS, rand = Math.random) {

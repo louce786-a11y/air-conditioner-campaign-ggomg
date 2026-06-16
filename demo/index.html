@@ -8,65 +8,53 @@
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { width: 100%; height: 100%; overflow: hidden; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
   body {
-    background: linear-gradient(135deg, #0D2B3E 0%, #1E5A8E 50%, #0D2B3E 100%);
+    background: linear-gradient(135deg, #F0F8FF 0%, #A8E6CF 30%, #4FC3F7 70%, #1E88E5 100%);
     display: flex; align-items: center; justify-content: center;
     user-select: none;
   }
 
-  /* ========== 9:16 满屏画框 (360×640) — 1:1 还原三联图左图 ========== */
+  /* ========== 手机画框（9:16 竖屏，360×640） ========== */
   .phone {
     position: relative;
     width: 360px;
     height: 640px;
-    aspect-ratio: 9/16;
-    border-radius: 24px;
-    box-shadow: 0 16px 48px rgba(30,136,229,0.4), 0 0 0 6px rgba(240,248,255,0.6);
+    border-radius: 32px;
+    box-shadow: 0 20px 60px rgba(30,136,229,0.4), 0 0 0 8px rgba(240,248,255,0.6);
     overflow: hidden;
     cursor: pointer;
-    background: #B3E5FC;
+    background: #F0F8FF;
   }
 
-  /* Layer 1: 9:16 背景图铺满整个画框 */
-  .bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-  }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
 
-  /* ========== 5 张 sprite 卡（按 sprite 实际比例定容器，等比例缩放） ========== */
+  /* ========== 5 张 sprite 卡（共用基础样式） ========== */
   .card {
     position: absolute;
+    width: 78px;
+    height: 105px;
     object-fit: contain;
     transform-origin: center center;
     pointer-events: none;
-    filter: drop-shadow(0 4px 8px rgba(30,136,229,0.35));
+    filter: drop-shadow(0 6px 12px rgba(30,136,229,0.35));
     will-change: left, top, transform;
   }
-  /* 每张卡按 sprite 实际尺寸定容器（高度统一 95px，宽度按 sprite 比例） */
-  .card[data-id="C1"] { width: 41px;  height: 95px; }  /* 9折 微凉 (sprite 82×191, ratio 1:2.33) */
-  .card[data-id="C3"] { width: 45px;  height: 95px; }  /* 7折 冰爽畅享 (sprite 91×191, ratio 1:2.10) */
-  .card[data-id="C5"] { width: 59px;  height: 95px; }  /* 5折 半价冰风王 (sprite 118×191, ratio 1:1.62) - 中央最大 */
-  .card[data-id="C4"] { width: 45px;  height: 95px; }  /* 6折 极寒狂欢 (sprite 90×191, ratio 1:2.12) */
-  .card[data-id="C2"] { width: 46px;  height: 95px; }  /* 8折 清凉派对 (sprite 93×191, ratio 1:2.05) */
   .card-rare {
-    filter: drop-shadow(0 0 8px rgba(244,201,93,0.6)) drop-shadow(0 4px 8px rgba(30,136,229,0.35));
+    filter: drop-shadow(0 0 12px rgba(244,201,93,0.6)) drop-shadow(0 6px 12px rgba(30,136,229,0.35));
   }
 
-  /* Arc 默认状态（中央最大 1.18，两边略小 0.92） */
-  .card.tier-outer  { transform: translate(-50%, -50%) scale(0.92); z-index: 3; }
+  /* Arc 默认状态（3 等级缩放） */
+  .card.tier-outer  { transform: translate(-50%, -50%) scale(0.86); z-index: 3; }
   .card.tier-inner  { transform: translate(-50%, -50%) scale(1.00); z-index: 4; }
   .card.tier-center { transform: translate(-50%, -50%) scale(1.18); z-index: 5; }
 
-  /* === 拉齐到滚动轨道 ===
-     关键修改：snap-to 后 5 张卡仍保持水平布局，不在中央 */
+  /* === 拉齐到滚动轨道 === */
+  /* 5 张卡均匀分布，Y 统一 50%，scale 1.0 (TRACK_POSITIONS 控制 left/top) */
   .card.snapping {
     transition: left 0.4s cubic-bezier(0.33, 1, 0.68, 1),
                 top  0.4s cubic-bezier(0.33, 1, 0.68, 1),
-                transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+                transform 0.4s cubic-bezier(0.33, 1, 0.68, 1),
+                width 0.4s cubic-bezier(0.33, 1, 0.68, 1),
+                height 0.4s cubic-bezier(0.33, 1, 0.68, 1);
     transform: translate(-50%, -50%) scale(1.0) !important;
     z-index: 4 !important;
   }
@@ -74,22 +62,22 @@
   /* === 中奖揭示 === */
   @keyframes revealPop {
     0%   { transform: translate(-50%, -50%) scale(1.0); }
-    100% { transform: translate(-50%, -50%) scale(1.15); }
+    100% { transform: translate(-50%, -50%) scale(1.08); }
   }
   @keyframes revealSway1 {
-    0%   { transform: translate(-50%, -50%) scale(1.15) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) scale(1.15) rotate(-4deg); }
+    0%   { transform: translate(-50%, -50%) scale(1.08) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) scale(1.08) rotate(-4deg); }
   }
   @keyframes revealSway2 {
-    0%   { transform: translate(-50%, -50%) scale(1.15) rotate(-4deg); }
-    100% { transform: translate(-50%, -50%) scale(1.15) rotate(3deg); }
+    0%   { transform: translate(-50%, -50%) scale(1.08) rotate(-4deg); }
+    100% { transform: translate(-50%, -50%) scale(1.08) rotate(3deg); }
   }
   @keyframes revealSway3 {
-    0%   { transform: translate(-50%, -50%) scale(1.15) rotate(3deg); }
-    100% { transform: translate(-50%, -50%) scale(1.15) rotate(0deg); }
+    0%   { transform: translate(-50%, -50%) scale(1.08) rotate(3deg); }
+    100% { transform: translate(-50%, -50%) scale(1.08) rotate(0deg); }
   }
   @keyframes revealSettle {
-    0%   { transform: translate(-50%, -50%) scale(1.15); }
+    0%   { transform: translate(-50%, -50%) scale(1.08); }
     100% { transform: translate(-50%, -50%) scale(1.0); }
   }
   .card.revealing { z-index: 6 !important; }
@@ -99,31 +87,31 @@
   .card.revealing-sway-3 { animation: revealSway3 0.08s ease-in forwards; }
   .card.revealing-settle { animation: revealSettle 0.18s cubic-bezier(0.55, 0, 0.55, 1) forwards; }
 
-  /* 抽奖按钮 — 5 张卡下方居中（y≈88%） */
+  /* 抽奖按钮 */
   .draw-btn {
     position: absolute;
     left: 50%;
-    bottom: 7%;
+    bottom: 6%;
     transform: translateX(-50%);
     z-index: 20;
-    padding: 10px 36px;
+    padding: 12px 36px;
     background: linear-gradient(180deg, #F4C95D 0%, #1E88E5 100%);
     color: #F0F8FF;
-    border: 2px solid #F0F8FF;
-    border-radius: 26px;
-    font-size: 15px;
+    border: 2.5px solid #F0F8FF;
+    border-radius: 30px;
+    font-size: 18px;
     font-weight: 900;
     letter-spacing: 3px;
     white-space: nowrap;
-    box-shadow: 0 6px 20px rgba(30,136,229,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+    box-shadow: 0 8px 24px rgba(192,57,43,0.7), 0 2px 4px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.3);
     cursor: pointer;
     pointer-events: none;
     transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
     animation: btnPulse 2s ease-in-out infinite;
   }
   @keyframes btnPulse {
-    0%, 100% { box-shadow: 0 6px 20px rgba(30,136,229,0.5), inset 0 1px 0 rgba(255,255,255,0.3); }
-    50%      { box-shadow: 0 8px 28px rgba(244,201,93,0.7), 0 0 16px rgba(244,201,93,0.4), inset 0 1px 0 rgba(255,255,255,0.3); }
+    0%, 100% { box-shadow: 0 8px 24px rgba(192,57,43,0.7), 0 2px 4px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.3); }
+    50%      { box-shadow: 0 10px 32px rgba(231,111,81,0.9), 0 4px 8px rgba(0,0,0,0.2), 0 0 24px rgba(231,111,81,0.4), inset 0 1px 0 rgba(255,255,255,0.3); }
   }
   .draw-btn.hidden {
     opacity: 0;
@@ -134,7 +122,7 @@
   /* === 老虎机 viewport === */
   .reel-viewport {
     position: absolute;
-    top: 71%; left: 0; right: 0;
+    top: 38%; left: 0; right: 0;
     height: 22%;
     overflow: hidden;
     z-index: 10;
@@ -164,16 +152,12 @@
   .reel .card {
     position: relative;
     left: auto; top: auto;
+    width: 78px;
+    height: 105px;
     flex-shrink: 0;
-    margin: 0 3px;
+    margin: 0 4px;
     transform: scale(1.0);
   }
-  /* reel 内统一 sprite 尺寸 */
-  .reel .card[data-id="C1"] { width: 41px; height: 95px; }
-  .reel .card[data-id="C3"] { width: 45px; height: 95px; }
-  .reel .card[data-id="C5"] { width: 59px; height: 95px; }
-  .reel .card[data-id="C4"] { width: 45px; height: 95px; }
-  .reel .card[data-id="C2"] { width: 46px; height: 95px; }
 
   /* === 中奖弹窗 === */
   .result-popup {
@@ -188,27 +172,27 @@
   }
   .result-popup.show { display: flex; animation: fadeIn 0.4s; }
   .result-card {
-    width: 220px;
+    width: 240px;
     background: #F0F8FF;
     border: 3px solid #F4C95D;
-    border-radius: 16px;
-    padding: 20px;
+    border-radius: 20px;
+    padding: 24px;
     text-align: center;
     box-shadow: 0 10px 40px rgba(244,201,93,0.6);
     animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
   }
   .result-card .close {
-    position: absolute; top: 6px; right: 10px;
+    position: absolute; top: 8px; right: 12px;
     background: none; border: none;
-    font-size: 20px; color: #1E88E5;
+    font-size: 22px; color: #1E88E5;
     cursor: pointer; opacity: 0.5;
   }
-  .result-title { font-size: 13px; color: #1E88E5; opacity: 0.7; margin-bottom: 6px; }
-  .result-card-img { width: 60px; height: 80px; margin: 6px auto; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(30,136,229,0.3)); }
-  .result-name { font-size: 16px; font-weight: 800; color: #1E88E5; margin-top: 6px; }
-  .result-discount { font-size: 24px; font-weight: 800; color: #F4C95D; margin: 2px 0; }
-  .result-tip { font-size: 11px; color: #1E88E5; opacity: 0.6; margin-top: 6px; }
+  .result-title { font-size: 14px; color: #1E88E5; opacity: 0.7; margin-bottom: 8px; }
+  .result-card-img { width: 78px; height: 105px; margin: 8px auto; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(192,57,43,0.3)); }
+  .result-name { font-size: 18px; font-weight: 800; color: #1E88E5; margin-top: 8px; }
+  .result-discount { font-size: 28px; font-weight: 800; color: #F4C95D; margin: 4px 0; }
+  .result-tip { font-size: 12px; color: #1E88E5; opacity: 0.6; margin-top: 8px; }
 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes pop {
@@ -219,18 +203,18 @@
 </head>
 <body>
   <div class="phone" id="phone">
-    <!-- Layer 1: 9:16 背景图铺满整个画框（1:1 还原三联图左图主体） -->
+    <!-- Layer 1: 背景图（中 panel） -->
     <img class="bg" src="background-hires.png" alt="" />
 
-    <!-- Layer 2: 5 张 sprite 卡（默认水平排列 → snap-to → scroll） -->
+    <!-- Layer 2: 5 张 sprite 卡（默认弧形 → snap-to → scroll） -->
     <div id="cardsArc"></div>
 
-    <!-- Layer 3: 老虎机 viewport（snap-to 后出现，Y=71% 在画面下半） -->
+    <!-- Layer 3: 老虎机 viewport（snap-to 后出现） -->
     <div class="reel-viewport" id="reelViewport">
       <div class="reel" id="reel"></div>
     </div>
 
-    <!-- 抽奖按钮 — 5 张卡下方居中（bottom 7%） -->
+    <!-- 抽奖按钮 -->
     <button class="draw-btn" id="drawBtn">立即抽奖</button>
 
     <!-- 中奖弹窗 -->
@@ -239,7 +223,7 @@
         <button class="close" id="closePopup">×</button>
         <div class="result-title">恭喜抽中</div>
         <img class="result-card-img" id="popupCard" src="" alt="" />
-        <div class="result-name" id="popupName">微凉体验券</div>
+        <div class="result-name" id="popupName">微辣尝鲜券</div>
         <div class="result-discount" id="popupDiscount">9折</div>
         <div class="result-tip">到店出示即可享受</div>
       </div>
@@ -248,8 +232,8 @@
 
 <script type="module">
 import {
-  COUPONS, ARC_ORDER, ARC_POSITIONS, TRACK_POSITIONS,
-  weightedPick, PityCounter, SlotLayout, ANIM, REEL_STEP, REEL_CARD_WIDTH, REEL_CARD_MARGIN,
+  COUPONS, ARC_ORDER, POSITION_TIER, ARC_POSITIONS, TRACK_POSITIONS,
+  weightedPick, PityCounter, SlotLayout, ANIM, REEL_STEP,
 } from './game.js';
 
 const phone = document.getElementById('phone');
@@ -279,7 +263,7 @@ function createCardEl(coupon) {
   return img;
 }
 
-// ====== 渲染 default 状态的 5 张卡（水平排列 + 中央略高，1:1 还原三联图左图） ======
+// ====== 渲染 default 状态的 5 张卡（弧形布局） ======
 function renderArcCards() {
   cardsArc.innerHTML = '';
   ARC_ORDER.forEach((id, idx) => {
@@ -296,19 +280,6 @@ function renderArcCards() {
 }
 renderArcCards();
 
-// ====== 响应式缩放：把 360×640 canvas 缩到 viewport 内（手机竖屏不被截切） ======
-function fitCanvas() {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const margin = 16;
-  const scale = Math.min((vw - margin*2) / 360, (vh - margin*2) / 640);
-  phone.style.transformOrigin = 'center center';
-  phone.style.transform = `scale(${scale})`;
-}
-fitCanvas();
-window.addEventListener('resize', fitCanvas);
-window.addEventListener('orientationchange', fitCanvas);
-
 // ====== 渲染老虎机 reel ======
 function renderReel(winnerId) {
   reel.innerHTML = '';
@@ -320,7 +291,7 @@ function renderReel(winnerId) {
   });
 }
 
-// ====== snap-to 阶段：5 张卡拉到水平滚动轨道（保持在原 Y 附近，不拉到画面中央） ======
+// ====== 工具：snap-to 阶段：5 张卡移到滚动轨道 ======
 function snapToTrack() {
   const cards = cardsArc.querySelectorAll('.card');
   cards.forEach((el) => {
@@ -332,98 +303,132 @@ function snapToTrack() {
   });
 }
 
-// ====== 重置回 arc 状态（弹窗关闭时调用，无 transition） ======
-function resetToArc() {
+// ====== 工具：重置回 arc 状态（弹窗关闭时调用，无 transition） ======
+function resetToArc(instant = true) {
   const cards = cardsArc.querySelectorAll('.card');
-  cards.forEach((el) => {
-    // 1. 关闭所有 transition，让位置立即回 arc
-    el.style.transition = 'none';
-    // 2. 清掉所有动画相关 class（snapping、revealing、revealing-*）
-    el.classList.remove(
-      'snapping', 'revealing',
-      'revealing-pop', 'revealing-sway-1', 'revealing-sway-2', 'revealing-sway-3', 'revealing-settle'
-    );
-    // 3. 清掉 inline opacity（snap 阶段可能设了 opacity=0）
-    el.style.opacity = '';
-    // 4. 强制 reflow，让浏览器应用上面的变更
-    void el.offsetWidth;
-    // 5. 把位置设回 ARC_POSITIONS（arc 状态由 tier-* CSS class 控制 transform）
-    const posKey = el.dataset.posKey;
-    const pos = ARC_POSITIONS[posKey];
-    el.style.left = `${pos.x}%`;
-    el.style.top = `${pos.y}%`;
-    // 6. 强制 reflow 后清掉 transition，让下次动画正常
-    void el.offsetWidth;
-    el.style.transition = '';
-  });
-  // reel viewport 也关掉
+  if (instant) {
+    // 关闭 transition，立即回 arc
+    cards.forEach((el) => {
+      el.style.transition = 'none';
+      el.classList.remove('snapping', 'revealing', 'revealing-pop', 'revealing-sway-1', 'revealing-sway-2', 'revealing-sway-3', 'revealing-settle');
+      const posKey = el.dataset.posKey;
+      const pos = ARC_POSITIONS[posKey];
+      el.style.left = `${pos.x}%`;
+      el.style.top = `${pos.y}%`;
+    });
+    // 强制 reflow + 恢复 transition
+    void phone.offsetWidth;
+    cards.forEach((el) => { el.style.transition = ''; });
+  } else {
+    cards.forEach((el) => {
+      el.classList.remove('snapping', 'revealing', 'revealing-pop', 'revealing-sway-1', 'revealing-sway-2', 'revealing-sway-3', 'revealing-settle');
+      const posKey = el.dataset.posKey;
+      const pos = ARC_POSITIONS[posKey];
+      el.style.left = `${pos.x}%`;
+      el.style.top = `${pos.y}%`;
+    });
+  }
+  // 重置 reel
+  reel.style.transition = 'none';
+  reel.style.transform = 'translate(-50%, -50%) translateX(0)';
   reelViewport.classList.remove('active');
+  reel.innerHTML = '';
+  drawBtn.classList.remove('hidden');
 }
 
-// ====== 点击 "立即抽奖" 按钮 ======
-function onDraw() {
+// ====== 中奖揭示动画 ======
+function revealWinner(cardEl) {
+  // 4 段动画：pop → sway1 → sway2 → sway3 → settle
+  const D = { pop: 160, sway: 80, settle: 180 };
+  cardEl.classList.add('revealing', 'revealing-pop');
+  setTimeout(() => {
+    cardEl.classList.remove('revealing-pop');
+    cardEl.classList.add('revealing-sway-1');
+    setTimeout(() => {
+      cardEl.classList.remove('revealing-sway-1');
+      cardEl.classList.add('revealing-sway-2');
+      setTimeout(() => {
+        cardEl.classList.remove('revealing-sway-2');
+        cardEl.classList.add('revealing-sway-3');
+        setTimeout(() => {
+          cardEl.classList.remove('revealing-sway-3');
+          cardEl.classList.add('revealing-settle');
+          setTimeout(() => {
+            cardEl.classList.remove('revealing-settle');
+          }, D.settle);
+        }, D.sway);
+      }, D.sway);
+    }, D.sway);
+  }, D.pop);
+}
+
+// ====== 点击触发抽奖 ======
+phone.addEventListener('click', () => {
   if (isSpinning) return;
   isSpinning = true;
   drawBtn.classList.add('hidden');
-  pity.increment();
 
-  const winnerId = weightedPick(pity);
+  // 1. 加权随机选
+  const expected = weightedPick();
+  const result = pity.apply(expected);
 
-  // 1. snap-to：5 张卡瞬间拉到水平轨道
+  // 2. snap-to 阶段：5 张卡拉到滚动轨道（400ms）
   snapToTrack();
-  reelViewport.classList.add('active');
 
-  // 2. 老虎机滚动
+  // 3. snap-to 完成后，停顿 200ms，再切到 reel
   setTimeout(() => {
-    renderReel(winnerId);
-    const totalCards = SlotLayout.size();
-    const winnerIdx = SlotLayout.winnerIndex(winnerId);
-    const targetX = -(winnerIdx * (REEL_CARD_WIDTH + REEL_CARD_MARGIN * 2) - (360 / 2) + REEL_CARD_WIDTH / 2);
-    reel.style.transition = `transform ${ANIM.SPIN_MS}ms cubic-bezier(0.16, 1, 0.3, 1)`;
-    reel.style.transform = `translate(-50%, -50%) translateX(${targetX}px)`;
+    // 隐藏 arc cards
+    cardsArc.querySelectorAll('.card').forEach((c) => {
+      c.style.transition = 'opacity 0.3s';
+      c.style.opacity = '0';
+    });
 
-    // 3. 滚动结束：弹窗显示中奖券
+    // 构建 reel
     setTimeout(() => {
-      const coupon = COUPONS.find(c => c.id === winnerId);
-      popupCard.src = `cards/card-${SPRITE_FILE[coupon.id]}.png`;
-      popupName.textContent = coupon.name;
-      popupDiscount.textContent = coupon.discount;
-      popup.classList.add('show');
+      renderReel(result.id);
+      reelViewport.classList.add('active');
 
-      // 4. 弹窗打开后，中奖卡揭示动画（覆盖在弹窗后面）
-      const winningCardEl = cardsArc.querySelector(`.card[data-id="${winnerId}"]`);
-      if (winningCardEl) {
-        winningCardEl.classList.add('revealing', 'revealing-pop');
-        setTimeout(() => winningCardEl.classList.replace('revealing-pop', 'revealing-sway-1'), 160);
-        setTimeout(() => winningCardEl.classList.replace('revealing-sway-1', 'revealing-sway-2'), 240);
-        setTimeout(() => winningCardEl.classList.replace('revealing-sway-2', 'revealing-sway-3'), 320);
-        setTimeout(() => winningCardEl.classList.replace('revealing-sway-3', 'revealing-settle'), 400);
-      }
-      isSpinning = false;
-    }, ANIM.SPIN_MS + 100);
-  }, 400);
+      // 4. scroll 阶段：reel translateX
+      const offset = SlotLayout.finalOffset(78, 8, 35, 40);
+      reel.style.transition = `transform ${ANIM.SPIN_DURATION}ms ${ANIM.SPIN_EASING}`;
+      void reel.offsetWidth;
+      reel.style.transform = `translate(-50%, -50%) translateX(${offset}px)`;
+
+      // 5. scroll 完成后：定位 winner 卡，做 reveal
+      setTimeout(() => {
+        // winner 卡是 reel 上 index 35 (即 reel 第 36 张)
+        const winnerCard = reel.children[35];
+        if (winnerCard) {
+          revealWinner(winnerCard);
+        }
+        // reveal 完成后弹窗
+        setTimeout(() => {
+          showResult(result);
+          isSpinning = false;
+        }, ANIM.REVEAL_DURATION);
+      }, ANIM.SPIN_DURATION);
+    }, 300);
+  }, ANIM.SNAP_DURATION + ANIM.SNAP_HOLD);
+});
+
+function showResult(coupon) {
+  popupCard.src = `cards/card-${SPRITE_FILE[coupon.id]}.png`;
+  popupName.textContent = coupon.name;
+  popupDiscount.textContent = coupon.discount;
+  popup.classList.add('show');
 }
 
-// ====== 点击画框触发抽奖 ======
-phone.addEventListener('click', () => {
-  if (popup.classList.contains('show')) return;
-  onDraw();
-});
-
-drawBtn.addEventListener('click', (e) => {
+closePopup.addEventListener('click', (e) => {
   e.stopPropagation();
-  if (!drawBtn.classList.contains('hidden')) onDraw();
-});
-
-// ====== 关闭弹窗 → 重置回 arc ======
-closePopup.addEventListener('click', () => {
   popup.classList.remove('show');
-  drawBtn.classList.remove('hidden');
-  resetToArc();
+  // 重置：立即回 arc（无 transition），按钮恢复
+  setTimeout(() => {
+    resetToArc(true);
+  }, 100);
 });
 
-// 暴露给 test
-window.__demo = { onDraw, resetToArc, snapToTrack, pity, COUPONS };
+// 暴露给测试
+window.__game = { COUPONS, weightedPick, PityCounter, SlotLayout, ARC_ORDER };
 </script>
 </body>
 </html>
