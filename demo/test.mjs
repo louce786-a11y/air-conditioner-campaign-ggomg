@@ -159,25 +159,25 @@ test('SlotLayout: P3 位置对应 center tier', () => {
 test('SlotLayout: finalOffset 让 winner 卡中心对齐 reel 中轴', () => {
   // 新公式：reelWidth/2 - winnerIndex*step - cardWidth/2
   // 验证：offset + reelWidth/2 - winnerIndex*step - cardWidth/2 = 0
-  const cardWidth = 78;
+  const cardWidth = 60;
   const cardMargin = 8;
-  const step = cardWidth + cardMargin;  // 86
+  const step = cardWidth + cardMargin;  // 68
   const total = 40;
-  const reelWidth = total * step;  // 3440
+  const reelWidth = total * step;  // 2720
   const offset = SlotLayout.finalOffset(cardWidth, cardMargin, 35, total);
-  // card 35 中心相对 reel 起点 = 35*86 + 39 = 3049
-  // reel 起点 = 父容器 50% - reelWidth/2 + offset = 50% - 1720 + offset
-  // card 35 中心 = reel 起点 + 35*86 + 39 = 父容器 50% - 1720 + offset + 3049
-  //             = 父容器 50% + 1329 + offset
-  // 要 card 35 中心 = 父容器 50% (中轴): offset = -1329
-  assert.equal(offset, -1329);
+  // card 35 中心相对 reel 起点 = 35*68 + 30 = 2410
+  // reel 起点 = 父容器 50% - reelWidth/2 + offset = 50% - 1360 + offset
+  // card 35 中心 = reel 起点 + 35*68 + 30 = 父容器 50% - 1360 + offset + 2410
+  //             = 父容器 50% + 1050 + offset
+  // 要 card 35 中心 = 父容器 50% (中轴): offset = -1050
+  assert.equal(offset, -1050);
 });
 
 test('SlotLayout: finalOffset winnerIndex=0 → offset = reelWidth/2 - cardWidth/2', () => {
   // 第 1 张卡中心 = reel 中心
-  const offset = SlotLayout.finalOffset(78, 8, 0, 40);
-  // = 40*86/2 - 0*86 - 39 = 1720 - 39 = 1681
-  assert.equal(offset, 1681);
+  const offset = SlotLayout.finalOffset(60, 8, 0, 40);
+  // = 40*68/2 - 0*68 - 30 = 1360 - 30 = 1330
+  assert.equal(offset, 1330);
 });
 
 // ===== 7. Snap-to 动画 =====
@@ -185,9 +185,9 @@ test('snap-to 流程: ARC_POSITIONS → TRACK_POSITIONS → reel', () => {
   // 验证 ARC 和 TRACK 都是 5 个位置
   assert.equal(Object.keys(ARC_POSITIONS).length, 5);
   assert.equal(Object.keys(TRACK_POSITIONS).length, 5);
-  // 所有 track 位置 Y 统一
+  // 所有 track 位置 Y 统一在 70%（不再是 50%，避免挡空调）
   for (const k of Object.keys(TRACK_POSITIONS)) {
-    assert.equal(TRACK_POSITIONS[k].y, 50, `${k} Y 应为 50`);
+    assert.equal(TRACK_POSITIONS[k].y, 70, `${k} Y 应为 70`);
   }
   // P3 是中央
   assert.equal(TRACK_POSITIONS.P3.x, 50, 'P3 应在中轴 50%');

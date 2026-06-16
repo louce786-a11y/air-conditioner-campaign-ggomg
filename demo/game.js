@@ -25,24 +25,26 @@ export const POSITION_TIER = {
 
 export const TIER_SCALE = { outer: 0.86, inner: 1.00, center: 1.18 };
 
-// ===== 弧形布局：5 张卡在 default 状态的位置（phone canvas 360×640，百分比）=====
+// ===== 弧形布局：5 张卡在 default 状态的位置（phone canvas 720×405 横屏，百分比）=====
 // 视觉上：中间大、两边小，弧形排列
+// 16:9 横屏：X 铺满画面下半部分，Y 弧形 70-90%（避开 Q 版空调脸部）
 export const ARC_POSITIONS = {
-  P1: { x: 14, y: 78, tier: 'outer'  },
-  P2: { x: 32, y: 73, tier: 'inner'  },
-  P3: { x: 50, y: 68, tier: 'center' },
-  P4: { x: 68, y: 73, tier: 'inner'  },
-  P5: { x: 86, y: 78, tier: 'outer'  },
+  P1: { x: 18, y: 90, tier: 'outer'  },  // C1 9折 最左最低
+  P2: { x: 33, y: 80, tier: 'inner'  },  // C3 7折 左二
+  P3: { x: 50, y: 70, tier: 'center' },  // C5 5折 中央最大（不挡空调脸）
+  P4: { x: 67, y: 80, tier: 'inner'  },  // C4 6折 右二
+  P5: { x: 82, y: 90, tier: 'outer'  },  // C2 8折 最右最低
 };
 
 // ===== 滚动轨道：snap-to 后的统一布局（参考 godot spec 4.2）=====
-// 5 张卡均匀分布，Y 统一，scale 1.0
+// 关键设计：5 张卡均匀分布，Y 统一在 80%（原弧形中段位置），不挡空调脸也不到画面中央
+// X 间距 18% = 130px（卡宽 60px + 间距 70px），不重叠
 export const TRACK_POSITIONS = {
-  P1: { x:  8, y: 50, tier: 'inner' },
-  P2: { x: 28, y: 50, tier: 'inner' },
-  P3: { x: 50, y: 50, tier: 'inner' },  // 中央
-  P4: { x: 72, y: 50, tier: 'inner' },
-  P5: { x: 92, y: 50, tier: 'inner' },
+  P1: { x: 14, y: 80, tier: 'inner' },
+  P2: { x: 32, y: 80, tier: 'inner' },
+  P3: { x: 50, y: 80, tier: 'inner' },  // 中央
+  P4: { x: 68, y: 80, tier: 'inner' },
+  P5: { x: 86, y: 80, tier: 'inner' },
 };
 
 export const RARE_WEIGHT_THRESHOLD = 15;
@@ -62,9 +64,9 @@ export const ANIM = {
 // ===== 老虎机常量 =====
 export const SLOT_TOTAL_CARDS = 40;
 export const SLOT_WINNER_INDEX = 35;
-export const REEL_CARD_WIDTH = 78;       // 滚动轨道上卡宽
+export const REEL_CARD_WIDTH = 60;       // 滚动轨道上卡宽（适配 16:9 横屏 720×405）
 export const REEL_CARD_MARGIN = 8;       // 卡间距
-export const REEL_STEP = REEL_CARD_WIDTH + REEL_CARD_MARGIN;  // 86
+export const REEL_STEP = REEL_CARD_WIDTH + REEL_CARD_MARGIN;  // 68
 
 // ===== 加权随机抽 =====
 export function weightedPick(coupons = COUPONS, rand = Math.random) {
