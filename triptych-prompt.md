@@ -20,11 +20,11 @@ On the Cool summer air conditioner showroom interior, ice blue gradient wall, wh
 - Top-right: Single small round button "说明" (#A8E6CF "?" 36x36).
 - Center: Focus character Q版小空调机吉祥物（白色方形机体，正面圆角笑脸，蓝色出风口，挂着小雪花/冰晶，微笑挥手） (character stands naturally on the store floor / scene ground, NO wooden pedestal, NO cartoon stage, NO display platform, NO podium), soft glow, NOT blocking Logo/cards/buttons.
 - Middle-lower: 5 coupon cards in a STRAIGHT HORIZONTAL ROW, side by side, left to right:
-  - Position 1 (leftmost, smallest, no highlight): 微凉体验券 9折
-  - Position 2 (inner left, mid, no highlight): 冰爽畅享券 7折
-  - Position 3 (CENTER, LARGEST, gold border for visual distinction, NO highlight glow, NO star sparkles): 半价冰风王 5折
-  - Position 4 (inner right, mid, NO highlight glow, NO sparkles): 极寒狂欢券 6折
-  - Position 5 (rightmost, smallest, no highlight): 清凉派对券 8折
+  - Position 1 (leftmost, smallest, no highlight): 微凉体验券 9折, card x range 8%-24% (中心 x ~16%)
+  - Position 2 (inner left, mid, no highlight): 冰爽畅享券 7折, card x range 26%-42% (中心 x ~34%)
+  - Position 3 (CENTER, LARGEST, gold border for visual distinction, NO highlight glow, NO star sparkles): 半价冰风王 5折, card x range 44%-56% (中心 x ~50%)
+  - Position 4 (inner right, mid, NO highlight glow, NO sparkles): 极寒狂欢券 6折, card x range 58%-74% (中心 x ~66%)
+  - Position 5 (rightmost, smallest, no highlight): 清凉派对券 8折, card x range 76%-92% (中心 x ~84%)
   All cards: #F0F8FF bg, #1E88E5 bold text, #A8E6CF border. Position 3 has gold border (#F4C95D) instead of accent border, but NO glow, NO sparkles, NO halo, NO aura. Position 4 uses standard accent border like common cards.
   Cards MUST NOT overlap each other. Maintain at least 20px spacing.
   Each card shows ONLY: name + discount. NO probability text on cards. NO C1/C2/C3/C4/C5 labels.

@@ -27,16 +27,14 @@ export const TIER_SCALE = { outer: 0.86, inner: 1.00, center: 1.18 };
 
 // ===== 弧形布局：5 张卡在 default 状态的位置（phone canvas 720×405 横屏，百分比）=====
 // 视觉上：水平排列，中央略高（5 折最大），跟三联图左图一致
-// sprite 宽度不同（68/81/114/81/64），X 位置按 sprite 中心点对齐 preview.png
-// preview.png 486×864 中 5 张卡中心 X：33, 127, 244, 363, 453 → 6.8/26.1/50.2/74.7/93.2%
-// 但 preview 边缘卡1/卡5被切，调整为安全位置
+// sprite 宽度不同（82/91/118/90/93），X 位置向画框中间聚拢（避免卡 1/5 被画框切）
 // 画框 360×640 中 Y 位置：卡顶 y=66%, 卡底 y=78%，中央卡略高 2%
 export const ARC_POSITIONS = {
-  P1: { x: 14, y: 73, tier: 'outer'  },  // C1 9折 微凉 最左 (sprite 68×111)
-  P2: { x: 31, y: 72, tier: 'inner'  },  // C3 7折 冰爽畅享 左中 (sprite 81×111)
-  P3: { x: 50, y: 70, tier: 'center' },  // C5 5折 半价冰风王 中央最大 (sprite 114×111)
-  P4: { x: 69, y: 72, tier: 'inner'  },  // C4 6折 极寒狂欢 右中 (sprite 81×111)
-  P5: { x: 86, y: 73, tier: 'outer'  },  // C2 8折 清凉派对 最右 (sprite 64×111)
+  P1: { x: 15, y: 73, tier: 'outer'  },  // C1 9折 微凉 最左 (sprite 82×191)
+  P2: { x: 32, y: 72, tier: 'inner'  },  // C3 7折 冰爽畅享 左中 (sprite 91×191)
+  P3: { x: 50, y: 70, tier: 'center' },  // C5 5折 半价冰风王 中央最大 (sprite 118×191)
+  P4: { x: 68, y: 72, tier: 'inner'  },  // C4 6折 极寒狂欢 右中 (sprite 90×191)
+  P5: { x: 85, y: 73, tier: 'outer'  },  // C2 8折 清凉派对 最右 (sprite 93×191)
 };
 
 // ===== 滚动轨道：snap-to 后的统一布局（参考 godot spec 4.2）=====

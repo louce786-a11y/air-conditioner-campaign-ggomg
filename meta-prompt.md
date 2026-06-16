@@ -1,4 +1,4 @@
-# Meta-Prompt: Triptych Prompt Generator v2.9
+# Meta-Prompt: Triptych Prompt Generator v3.0
 
 > 你是 Campaign Agent Kit v1.0 资深手游活动页视觉提示词工程师。
 > 输入 `campaign_brief.json`（4 层嵌套结构）→ 编译 `triptych-prompt.md` → 喂给 `opencli chatgpt image`。
@@ -143,11 +143,11 @@ On the {{content.left_panel.background}}.
 - Top-right: Single small round button "{{content.left_panel.top_button}}" ({{color_palette.accent}} "?" 36x36).
 - Center: Focus character {{content.left_panel.focus_character}} (character stands naturally on the store floor / scene ground, NO wooden pedestal, NO cartoon stage, NO display platform, NO podium), soft glow, NOT blocking Logo/cards/buttons.
 - Middle-lower: 5 coupon cards in a STRAIGHT HORIZONTAL ROW, side by side, left to right:
-  - Position 1 (leftmost, smallest, no highlight): {{coupons.C1.name}} {{coupons.C1.discount}}
-  - Position 2 (inner left, mid, no highlight): {{coupons.C3.name}} {{coupons.C3.discount}}
-  - Position 3 (CENTER, LARGEST, gold border for visual distinction, NO highlight glow, NO star sparkles): {{coupons.C5.name}} {{coupons.C5.discount}}
-  - Position 4 (inner right, mid, NO highlight glow, NO sparkles): {{coupons.C4.name}} {{coupons.C4.discount}}
-  - Position 5 (rightmost, smallest, no highlight): {{coupons.C2.name}} {{coupons.C2.discount}}
+  - Position 1 (leftmost, smallest, no highlight): {{coupons.C1.name}} {{coupons.C1.discount}}, card x range 8%-24% (中心 x ~16%)
+  - Position 2 (inner left, mid, no highlight): {{coupons.C3.name}} {{coupons.C3.discount}}, card x range 26%-42% (中心 x ~34%)
+  - Position 3 (CENTER, LARGEST, gold border for visual distinction, NO highlight glow, NO star sparkles): {{coupons.C5.name}} {{coupons.C5.discount}}, card x range 44%-56% (中心 x ~50%)
+  - Position 4 (inner right, mid, NO highlight glow, NO sparkles): {{coupons.C4.name}} {{coupons.C4.discount}}, card x range 58%-74% (中心 x ~66%)
+  - Position 5 (rightmost, smallest, no highlight): {{coupons.C2.name}} {{coupons.C2.discount}}, card x range 76%-92% (中心 x ~84%)
   All cards: {{color_palette.base}} bg, {{color_palette.primary}} bold text, {{color_palette.accent}} border. Position 3 has gold border ({{color_palette.highlight}}) instead of accent border, but NO glow, NO sparkles, NO halo, NO aura. Position 4 uses standard accent border like common cards.
   Cards MUST NOT overlap each other. Maintain at least 20px spacing.
   Each card shows ONLY: name + discount. NO probability text on cards. NO C1/C2/C3/C4/C5 labels.
@@ -230,11 +230,18 @@ Arrange these 7 elements (no #FF00FF cutting guide, no highlight_glow element), 
 | Rule 13 | 内嵌 9:16 portrait |
 | Rule 14 | 统一边框（颜色从 color_palette 读，跟主题适配）|
 | Rule 15 | **卡位不重叠**（间距 ≥ 20px）|
+| Rule 16 | **卡位 x 范围必须在 8%-92% canvas 内**（左右各留 8% 安全边距，保证切图后卡片完整不被切）|
 | **额外** | **卡位只显示券名+折扣+概率，无 C1/C2 标签**|
 
 ---
 
 ## 变更日志
+
+- **v3.0 (2026-06-16)**: 修大g 反馈 3 个问题（冰风空调 demo v4 阶段）
+  1. **卡位 x 范围 8%-92%**（左右各留 8% 安全边距）：原 Rule 15 只说"不重叠间距≥20px"，但没限定 x 边界。AI 会把卡1/卡5画到 canvas 边缘外（x<3% 或 x>97%），导致切图后 sprite 不完整
+  2. **每张卡 x 中心点明示**（16/34/50/66/84%）：让 AI 明确知道每张卡的中心位置
+  3. **5 张卡按等距分布（间距 18%）**：原 prompt 只说"horizontal row side by side"，AI 容易把外圈卡画到边缘。明确间距 18% 避免溢出
+  4. **meta-prompt v3.0**：上述 3 条已生效在当前 prompt 的 LEFT panel 卡片位置说明
 
 - **v2.9 (2026-06-15)**: 修大g 反馈 2 个问题（便利店 demo 阶段）
   1. **去掉卡位概率显示**：`name + discount + probability` → `name + discount ONLY`（概率后端管理，不进 UI）
