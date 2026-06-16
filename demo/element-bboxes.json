@@ -1,0 +1,90 @@
+{
+  "source": "preview.png",
+  "size": [
+    486,
+    864
+  ],
+  "cards": [
+    {
+      "id": "card-1",
+      "x_range": [
+        0,
+        67
+      ],
+      "y_range": [
+        583,
+        709
+      ],
+      "size": [
+        68,
+        127
+      ],
+      "path": "cards/card-1.png"
+    },
+    {
+      "id": "card-2",
+      "x_range": [
+        87,
+        167
+      ],
+      "y_range": [
+        583,
+        709
+      ],
+      "size": [
+        81,
+        127
+      ],
+      "path": "cards/card-2.png"
+    },
+    {
+      "id": "card-3",
+      "x_range": [
+        188,
+        318
+      ],
+      "y_range": [
+        583,
+        709
+      ],
+      "size": [
+        131,
+        127
+      ],
+      "path": "cards/card-3.png"
+    },
+    {
+      "id": "card-4",
+      "x_range": [
+        323,
+        402
+      ],
+      "y_range": [
+        583,
+        709
+      ],
+      "size": [
+        80,
+        127
+      ],
+      "path": "cards/card-4.png"
+    },
+    {
+      "id": "card-5",
+      "x_range": [
+        406,
+        485
+      ],
+      "y_range": [
+        583,
+        709
+      ],
+      "size": [
+        80,
+        127
+      ],
+      "path": "cards/card-5.png"
+    }
+  ],
+  "note": "Cards cropped from preview.png (完整版) — elements.png 卡 1 边缘被 AI 画到 canvas 外"
+}
